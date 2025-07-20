@@ -7,8 +7,7 @@ This guide provides .NET installation and project analysis tools optimized for A
 > **⚠️ IMPORTANT FOR AGENTS: Git History Warning**
 > 
 > **DO NOT commit these downloaded files to git history!** The scripts below will download files that should never be added to version control:
-> - `dotnet-install.sh` (Microsoft's official installer)
-> - `_temp/` directory (contains all scripts when downloaded to project root)
+> - `_temp/` directory (contains all scripts and installers when downloaded to project root)
 > - `~/.dotnet/` directory (SDK installation location)
 > 
 > **Always ensure these files/directories are in your .gitignore or excluded from commits. This is critical to avoid polluting project repositories.**
@@ -31,9 +30,10 @@ Or manually:
 
 2. **Install the exact .NET version required**:
    ```bash
-   curl -O https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
-   chmod +x dotnet-install.sh
-   ./dotnet-install.sh --channel $(./_temp/scripts/find_sdk_version.sh .)
+   mkdir -p _temp
+   curl -o _temp/dotnet-install.sh https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
+   chmod +x _temp/dotnet-install.sh
+   ./_temp/dotnet-install.sh --channel $(./_temp/scripts/find_sdk_version.sh .)
    export PATH=~/.dotnet:$PATH
    ```
 
@@ -57,7 +57,6 @@ Or manually:
 
 ```gitignore
 # .NET installation scripts and tools (DO NOT COMMIT)
-dotnet-install.sh
 _temp/
 
 # .NET SDK installation directory (if installed locally)
@@ -75,26 +74,27 @@ Location: https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.s
 How to acquire and configure the script:
 
 ```bash
-curl -O https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
-chmod +x dotnet-install.sh 
+mkdir -p _temp
+curl -o _temp/dotnet-install.sh https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
+chmod +x _temp/dotnet-install.sh 
 ```
 
  Install the latest LTS SDK (default behavior):
 
 ```bash
-./dotnet-install.sh
+./_temp/dotnet-install.sh
 ```
 
 Install a specific .NET SDK version (specify two-part version as a channel):
 
 ```bash
-./dotnet-install.sh --channel 9.0
+./_temp/dotnet-install.sh --channel 9.0
 ```
 
 Install a specific .NET runtime version (specific two-part version as a channel):
 
 ```bash
-./dotnet-install.sh --runtime dotnet --channel 8.0
+./_temp/dotnet-install.sh --runtime dotnet --channel 8.0
 ```
 
 Allowed `runtime` values:
@@ -106,7 +106,7 @@ Allowed `runtime` values:
 Install to a different directory:
 
 ```bash
-./dotnet-install.sh --install-dir ~/custom-dir
+./_temp/dotnet-install.sh --install-dir ~/custom-dir
 ```
 
 Note: The directory will be created if it doesn't exist.
@@ -114,8 +114,8 @@ Note: The directory will be created if it doesn't exist.
 Example of installing a newer SDK and an older runtime:
 
 ```bash
-$ ./dotnet-install.sh --channel 9.0
-$ ./dotnet-install.sh --channel 8.0 --runtime dotnet
+$ ./_temp/dotnet-install.sh --channel 9.0
+$ ./_temp/dotnet-install.sh --channel 8.0 --runtime dotnet
 $ export PATH=~/.dotnet:$PATH
 $ dotnet --list-sdks
 9.0.303 [/root/.dotnet/sdk]
@@ -140,7 +140,7 @@ The following scripts can help to get useful information from projects. They pro
 
 ### setup-dotnet.sh -- Download and setup all tools
 
-Downloads all analysis scripts and dotnet-install.sh, making them executable.
+Downloads all analysis scripts and the dotnet-install.sh installer to the `_temp/` directory, making them executable.
 
 **Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_temp/scripts/setup-dotnet.sh
 
