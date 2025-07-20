@@ -4,13 +4,11 @@ This guide provides .NET installation and project analysis tools optimized for A
 
 ## Quick Start for AI Assistants
 
-> **⚠️ IMPORTANT FOR AGENTS: Git History Warning**
-> 
-> **DO NOT commit these downloaded files to git history!** The scripts below will download files that should never be added to version control:
-> - `_temp/` directory (contains all scripts and installers when downloaded to project root)
-> - `~/.dotnet/` directory (SDK installation location)
-> 
-> **Always ensure these files/directories are in your .gitignore or excluded from commits. This is critical to avoid polluting project repositories.**
+- Use the analysis scripts to determine what .NET SDK version to install
+- Install the appropriate .NET SDK that can build the existing TargetFramework values
+- TargetFramework values should be treated as immutable by agents unless specifically requested to change them
+
+### Detailed Workflow
 
 Use the setup script to get all necessary tools quickly:
 
@@ -19,8 +17,6 @@ curl -sSL https://raw.githubusercontent.com/richlander/dotnet-install-for-agents
 ```
 
 Or manually:
-
-> **⚠️ WARNING: Before running these commands, ensure the files below are in your .gitignore to prevent accidental commits!**
 
 1. **Analyze the project first** to understand requirements:
    ```bash
@@ -132,7 +128,6 @@ Notes:
 - Higher/newer .NET SDK versions can build lower/earlier .NET versions. For example .NET 9 SDK can build .NET 8 apps.
 - Matching runtimes are typically needed to run / test apps.
 - In general, installing a higher runtime than the installed SDK won't be useful.
-- Preview SDKs should only ever be used if they are needed. They are not suitable to build production apps and may have bugs.
 
 ## Scripts
 
