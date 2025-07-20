@@ -110,6 +110,15 @@ classlib,net8.0,./src/MyLibrary/MyLibrary.csproj
 
 This means: Install .NET 8.0 SDK to build all projects.
 
+## 🏃 Running .NET Applications
+
+Once you have .NET installed and have analyzed your projects, you'll need to build and run them. See the **[Running .NET Applications Guide](RUNNING.md)** for comprehensive coverage of:
+
+- **`dotnet build`** - Building projects and getting compiler feedback
+- **`dotnet run`** - Building and running projects (great for validating code changes)
+- **`dotnet publish`** - Publishing final applications for deployment
+- **AOT compilation** - Prerequisites for projects with `<PublishAot>true</PublishAot>` (requires `clang` and `zlib1g-dev` on Linux)
+
 ## ⚠️ Critical Configuration for Agents
 
 ### .gitignore Requirements
