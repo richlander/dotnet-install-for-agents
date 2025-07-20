@@ -110,6 +110,103 @@ classlib,net8.0,./src/MyLibrary/MyLibrary.csproj
 
 This means: Install .NET 8.0 SDK to build all projects.
 
+## 🏃 Running .NET Applications
+
+After installation and project analysis, you'll need to build and run .NET applications. Here are the essential commands:
+
+### Building Projects
+
+```bash
+# Build the project and get compiler feedback
+dotnet build
+
+# Build with minimal output for cleaner logs
+dotnet build --verbosity minimal
+
+# Build specific project file
+dotnet build path/to/Project.csproj
+```
+
+**Key points about `dotnet build`:**
+- Compiles the project and produces compiler feedback
+- Validates your code changes without running the application
+- Downloads NuGet packages if needed
+- Creates build artifacts in `bin/` directory
+
+### Running Applications
+
+```bash
+# Build and run the project in one command
+dotnet run
+
+# Run with command-line arguments (if required by the app)
+dotnet run -- arg1 arg2 --flag value
+
+# Run a specific project
+dotnet run --project path/to/Project.csproj
+
+# Run with specific configuration
+dotnet run --configuration Release
+```
+
+**Key points about `dotnet run`:**
+- Builds and runs the project automatically
+- Great for validating behavior after code changes
+- If the app requires command-line parameters, provide them after `--`
+- Only works with executable projects (`<OutputType>Exe</OutputType>`)
+
+### Publishing Applications
+
+```bash
+# Publish the application for deployment
+dotnet publish
+
+# Publish with specific configuration and output directory
+dotnet publish --configuration Release --output ./publish
+
+# Publish for specific runtime (cross-platform deployment)
+dotnet publish --runtime linux-x64 --self-contained
+```
+
+**Key points about `dotnet publish`:**
+- Creates a final, deployable version of your application
+- Use as the final step before deployment
+- Can create self-contained deployments that don't require .NET to be installed on target machines
+
+### AOT (Ahead-of-Time) Compilation Prerequisites
+
+For projects with `<PublishAot>true</PublishAot>` in their project file, additional Linux prerequisites are required:
+
+```bash
+# Install required packages for AOT compilation on Linux
+sudo apt-get update
+sudo apt-get install clang zlib1g-dev
+
+# Then publish with AOT
+dotnet publish --configuration Release
+```
+
+**AOT Requirements:**
+- **clang**: C/C++ compiler needed for native code generation
+- **zlib1g-dev**: Compression library development files
+- These are only needed when `<PublishAot>true</PublishAot>` is enabled in the project
+
+### Common Workflow Example
+
+```bash
+# 1. Analyze the project
+./_temp/scripts/find_projects.sh .
+
+# 2. Build to check for compilation errors
+dotnet build
+
+# 3. Run to test functionality
+dotnet run
+
+# 4. If changes look good, create final build
+dotnet publish --configuration Release
+```
+
 ## ⚠️ Critical Configuration for Agents
 
 ### .gitignore Requirements
