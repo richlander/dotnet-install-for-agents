@@ -8,6 +8,55 @@ This guide provides .NET installation and project analysis tools optimized for A
 - Install the appropriate .NET SDK that can build the existing TargetFramework values
 - TargetFramework values should be treated as immutable by agents unless specifically requested to change them
 
+### Detailed Workflow
+
+> **⚠️ IMPORTANT FOR AGENTS: Git History Warning**
+> 
+> **DO NOT commit these downloaded files to git history!** The scripts below will download files that should never be added to version control:
+> - `_temp/` directory (contains all scripts and installers when downloaded to project root)
+> - `~/.dotnet/` directory (SDK installation location)
+> 
+> **Always ensure these files/directories are in your .gitignore or excluded from commits. This is critical to avoid polluting project repositories.**
+
+Use the setup script to get all necessary tools quickly:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_temp/scripts/setup-dotnet.sh | bash
+```
+
+Or manually:
+
+> **⚠️ WARNING: Before running these commands, ensure the files below are in your .gitignore to prevent accidental commits!**
+
+1. **Analyze the project first** to understand requirements:
+   ```bash
+   ./_temp/scripts/find_projects.sh .          # Get complete project overview
+   ./_temp/scripts/find_sdk_version.sh .       # Find maximum .NET version needed
+   ```
+
+2. **Install the exact .NET version required**:
+   ```bash
+   mkdir -p _temp
+   curl -o _temp/dotnet-install.sh https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
+   chmod +x _temp/dotnet-install.sh
+   ./_temp/dotnet-install.sh --channel $(./_temp/scripts/find_sdk_version.sh .)
+   export PATH=~/.dotnet:$PATH
+   ```
+
+3. **Validate your environment**:
+   ```bash
+   dotnet --version
+   dotnet build    # Should succeed with 0 errors
+   ```
+
+### Why This Workflow Matters for AI
+
+- **🎯 Precision**: Install exactly what's needed, not guesswork
+- **⚡ Speed**: Analysis scripts prevent manual project file inspection  
+- **🔍 Insight**: Complete project overview before making changes
+- **✅ Confidence**: Validated environment = reliable testing
+- **📊 Documentation**: Script outputs provide clear environment details
+
 ### 🚨 Critical: .gitignore Configuration for Agents
 
 **ALWAYS** add these patterns to .gitignore when working in project repositories:
