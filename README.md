@@ -69,13 +69,6 @@ These files are tools for the agent environment and should never become part of 
 
 **DO NOT modify TargetFramework values in project files without explicit permission from the user.** TargetFramework values should be treated as immutable by agents unless specifically requested to change them.
 
-**Reasons why TargetFramework values should not be changed:**
-- **Compatibility Requirements**: Projects may target specific .NET versions for compatibility with existing systems, libraries, or deployment environments
-- **Business Constraints**: Organizations often have policies requiring specific .NET versions for security, support, or standardization reasons  
-- **Dependency Limitations**: Third-party libraries may only support certain .NET versions
-- **Runtime Environment**: Production environments may only have specific .NET versions installed
-- **Testing Matrix**: Projects may be specifically testing against particular .NET versions
-
 **Instead of modifying TargetFramework values:**
 - Use the analysis scripts to determine what .NET SDK version to install
 - Install the appropriate .NET SDK that can build the existing TargetFramework values
