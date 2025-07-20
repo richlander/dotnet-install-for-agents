@@ -8,7 +8,7 @@ This guide provides .NET installation and project analysis tools optimized for A
 > 
 > **DO NOT commit these downloaded files to git history!** The scripts below will download files that should never be added to version control:
 > - `dotnet-install.sh` (Microsoft's official installer)
-> - `scripts/` directory (when downloaded to project root)
+> - `_scripts/` directory (when downloaded to project root)
 > - `~/.dotnet/` directory (SDK installation location)
 > 
 > **Always ensure these files/directories are in your .gitignore or excluded from commits. This is critical to avoid polluting project repositories.**
@@ -16,7 +16,7 @@ This guide provides .NET installation and project analysis tools optimized for A
 Use the setup script to get all necessary tools quickly:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/setup-dotnet.sh | bash
+curl -sSL https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/setup-dotnet.sh | bash
 ```
 
 Or manually:
@@ -25,15 +25,15 @@ Or manually:
 
 1. **Analyze the project first** to understand requirements:
    ```bash
-   ./scripts/find_projects.sh .          # Get complete project overview
-   ./scripts/find_sdk_version.sh .       # Find maximum .NET version needed
+   ./_scripts/find_projects.sh .          # Get complete project overview
+   ./_scripts/find_sdk_version.sh .       # Find maximum .NET version needed
    ```
 
 2. **Install the exact .NET version required**:
    ```bash
    curl -O https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
    chmod +x dotnet-install.sh
-   ./dotnet-install.sh --channel $(./scripts/find_sdk_version.sh .)
+   ./dotnet-install.sh --channel $(./_scripts/find_sdk_version.sh .)
    export PATH=~/.dotnet:$PATH
    ```
 
@@ -58,11 +58,11 @@ Or manually:
 ```gitignore
 # .NET installation scripts and tools (DO NOT COMMIT)
 dotnet-install.sh
-scripts/find_sdk_version.sh
-scripts/find_exe_versions.sh
-scripts/find_referenced_versions.sh
-scripts/find_projects.sh
-scripts/setup-dotnet.sh
+_scripts/find_sdk_version.sh
+_scripts/find_exe_versions.sh
+_scripts/find_referenced_versions.sh
+_scripts/find_projects.sh
+_scripts/setup-dotnet.sh
 
 # .NET SDK installation directory (if installed locally)
 .dotnet/
@@ -140,24 +140,24 @@ Notes:
 
 ## Scripts
 
-The following scripts can help to get useful information from projects. They produce terse output and can be very useful for code assistants that want to limit token use and do not have local tools for processing .NET projects. All scripts are available in the [`scripts/`](./scripts/) directory or can be downloaded directly:
+The following scripts can help to get useful information from projects. They produce terse output and can be very useful for code assistants that want to limit token use and do not have local tools for processing .NET projects. All scripts are available in the [`_scripts/`](./_scripts/) directory or can be downloaded directly:
 
 ### setup-dotnet.sh -- Download and setup all tools
 
 Downloads all analysis scripts and dotnet-install.sh, making them executable.
 
-**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/setup-dotnet.sh
+**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/setup-dotnet.sh
 
 ### find_sdk_version.sh -- Find the max .NET version
 
 Finding the maximum .NET version is the best way to choose the .NET SDK to download.
 
-**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/find_sdk_version.sh
+**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/find_sdk_version.sh
 
 Example usage:
 
 ```bash
-$  ./scripts/find_sdk_version.sh .
+$  ./_scripts/find_sdk_version.sh .
 10.0
 ```
 
@@ -165,12 +165,12 @@ $  ./scripts/find_sdk_version.sh .
 
 Finding all references .NET versions from application or EXE projects is the best way to determine which runtime versions are needed to run apps. If the version matches the SDK, then the matching runtime is already installed.
 
-**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/find_exe_versions.sh
+**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/find_exe_versions.sh
 
 Example usage:
 
 ```bash
-$ ./scripts/find_exe_versions.sh .
+$ ./_scripts/find_exe_versions.sh .
 10.0
 8.0
 ```
@@ -179,12 +179,12 @@ $ ./scripts/find_exe_versions.sh .
 
 It can be useful to find all referenced .NET version regardless of project types. This is very similar to script above, but doesn't check for `Exe` project.
 
-**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/find_referenced_versions.sh
+**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/find_referenced_versions.sh
 
 Example usage:
 
 ```bash
-$ ./scripts/find_referenced_versions.sh .
+$ ./_scripts/find_referenced_versions.sh .
 10.0
 8.0
 ```
@@ -193,12 +193,12 @@ $ ./scripts/find_referenced_versions.sh .
 
 It can be useful to get a complete view of all projects.
 
-**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/scripts/find_projects.sh
+**Download:** https://raw.githubusercontent.com/richlander/dotnet-install-for-agents/main/_scripts/find_projects.sh
 
 Example usage:
 
 ```bash
-$ ./scripts/find_projects.sh .
+$ ./_scripts/find_projects.sh .
 OutputType,TargetFramework,Location
 classlib,net8.0,./src/FileHelpers/FileHelpers.csproj
 Exe,net10.0,./src/Test/Test.csproj
