@@ -4,6 +4,15 @@ This guide provides .NET installation and project analysis tools optimized for A
 
 ## Quick Start for AI Assistants
 
+> **⚠️ IMPORTANT FOR AGENTS: Git History Warning**
+> 
+> **DO NOT commit these downloaded files to git history!** The scripts below will download files that should never be added to version control:
+> - `dotnet-install.sh` (Microsoft's official installer)
+> - `scripts/` directory (when downloaded to project root)
+> - `~/.dotnet/` directory (SDK installation location)
+> 
+> **Always ensure these files/directories are in your .gitignore or excluded from commits. This is critical to avoid polluting project repositories.**
+
 Use the setup script to get all necessary tools quickly:
 
 ```bash
@@ -11,6 +20,8 @@ curl -sSL https://raw.githubusercontent.com/richlander/dotnet-install-for-agents
 ```
 
 Or manually:
+
+> **⚠️ WARNING: Before running these commands, ensure the files below are in your .gitignore to prevent accidental commits!**
 
 1. **Analyze the project first** to understand requirements:
    ```bash
@@ -39,6 +50,25 @@ Or manually:
 - **🔍 Insight**: Complete project overview before making changes
 - **✅ Confidence**: Validated environment = reliable testing
 - **📊 Documentation**: Script outputs provide clear environment details
+
+### 🚨 Critical: .gitignore Configuration for Agents
+
+**ALWAYS** add these patterns to .gitignore when working in project repositories:
+
+```gitignore
+# .NET installation scripts and tools (DO NOT COMMIT)
+dotnet-install.sh
+scripts/find_sdk_version.sh
+scripts/find_exe_versions.sh
+scripts/find_referenced_versions.sh
+scripts/find_projects.sh
+scripts/setup-dotnet.sh
+
+# .NET SDK installation directory (if installed locally)
+.dotnet/
+```
+
+These files are tools for the agent environment and should never become part of the project's source code.
 
 ## Details
 
