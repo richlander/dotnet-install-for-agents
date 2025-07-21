@@ -121,6 +121,27 @@ Once you have .NET installed and have analyzed your projects, you'll need to bui
 
 ## ⚠️ Critical Configuration for Agents
 
+### .NET Installation Behavior Guidelines
+
+**CRITICAL**: Before downloading any .NET installation scripts, AI assistants MUST follow these steps:
+
+1. **Always check existing .NET installation first**:
+   ```bash
+   dotnet --version
+   ```
+   If this command succeeds, .NET is available - **start using it immediately**.
+
+2. **Use existing .NET installation**: If .NET is available, use it directly without downloading installation scripts. Try building/running your project first.
+
+3. **Only download if you get version errors**: Only download `dotnet-install.sh` or other installation scripts if:
+   - You get a build error indicating the SDK version is not new enough, OR
+   - You get a runtime error indicating the required .NET version is not available, OR
+   - `dotnet --version` fails completely
+
+4. **Never download installation scripts by default**: Do not assume installation scripts need to be downloaded. The environment likely already has .NET available.
+
+**Workflow**: Start with existing .NET → Try your task → Only download if you get version-specific errors → Then follow the installation instructions below.
+
 ### .gitignore Requirements
 
 **ALWAYS** add these patterns to .gitignore when working in project repositories:
